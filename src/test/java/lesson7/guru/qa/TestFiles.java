@@ -1,6 +1,8 @@
 package lesson7.guru.qa;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.FileDownloadMode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TestFiles {
@@ -19,11 +22,13 @@ public class TestFiles {
     @Test
     @DisplayName("Скачивание файла doc")
     void DownloadFIleFormatDocTest() throws FileNotFoundException {
-        open("https://products.groupdocs.app/ru-ru/editor/total");
+        Configuration.proxyEnabled = true;
+        Configuration.fileDownload = FileDownloadMode.PROXY;
 
-        $(".uploadfileinput").uploadFromClasspath("test-doc.docx");
-        $("#mat-tab-label-0-0").click();
-        File download = $(".fa-file-download").download();
+        open("https://e-kontur.ru/Enquiry/DocumentTemplates");
+
+        $(byText("Договор об оказании услуг")).click();
+        File download = $(byText("Скачать шаблон")).download();
         System.out.println(download.getAbsolutePath());
     }
 }

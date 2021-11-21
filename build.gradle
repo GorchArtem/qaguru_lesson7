@@ -2,6 +2,10 @@ plugins {
     id 'java-library'
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 repositories {
     mavenCentral()
 }
@@ -12,7 +16,10 @@ dependencies {
             "com.codeborne:selenide:5.25.0",
             "org.junit.jupiter:junit-jupiter:5.8.1"
     )
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
+    testRuntimeOnly (
+            'org.junit.jupiter:junit-jupiter-engine:5.8.1',
+            'com.browserup:browserup-proxy-core:2.0.1'
+    )
 }
 
 test {

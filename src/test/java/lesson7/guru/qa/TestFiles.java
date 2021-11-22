@@ -1,23 +1,18 @@
 package lesson7.guru.qa;
 
 import com.codeborne.pdftest.PDF;
-import com.codeborne.selenide.ClickOptions;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.xlstest.XLS;
-import com.codeborne.selenide.FileDownloadMode;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.files.DownloadActions.click;
 
 public class TestFiles {
     @BeforeAll
@@ -26,8 +21,8 @@ public class TestFiles {
     }
 
     @Test
-    @DisplayName("Скачивание файла xls")
-    void DownloadFIleXlsTest() throws IOException {
+    @DisplayName("Скачивание файла xlsx")
+    void DownloadFIleXlsxTest() throws IOException {
         open("https://kub-24.ru/prajs-list-shablon-prajs-lista-2020-v-excel-word-pdf/");
 
         File xlsxFile = $(byText("шаблон прайс-листа в Excel")).download();

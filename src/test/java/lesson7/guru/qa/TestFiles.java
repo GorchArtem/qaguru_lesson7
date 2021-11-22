@@ -3,16 +3,19 @@ package lesson7.guru.qa;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.xlstest.XLS;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.*;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestFiles {
     @BeforeAll
@@ -43,7 +46,7 @@ public class TestFiles {
 
         File download = $("#raw-url").download();
         String fileContent = IOUtils.toString(new FileReader(download));
-        Assertions.assertTrue(fileContent.contains("Сборка в JENKINS http://178.250.156.47:8081/job/Project_23"));
+        assertTrue(fileContent.contains("Сборка в JENKINS http://178.250.156.47:8081/job/Project_23"));
     }
 
     @Test
@@ -56,5 +59,17 @@ public class TestFiles {
         Assertions.assertEquals(1, parsedPdf.numberOfPages);
     }
 
+    @Test
+    @DisplayName("Парсер файла CSV")
+    void ParserCSVFileTest() throws IOException, CsvException {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream("csvfile.csv");
+             Reader reader = new InputStreamReader(inputStream)) {
+            CSVReader csvReader = new CSVReader(reader);
+
+            List<String[]> strings  = csvReader.readAll();
+            assertEquals(4, strings.size());
+        }
+    }
 
 }
